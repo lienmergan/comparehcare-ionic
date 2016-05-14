@@ -7,12 +7,12 @@
 ;(function () {
     'use strict';
 
-    var secure = false;
+    // var secure = false;
 
     angular.module('app')
         .constant('config', {
             api: {
-                protocol: secure ? 'https' : 'http',
+                protocol: 'https',
                 host    : 'bap-comparehcare.herokuapp.com',
                 path    : '/www/api'
             }
