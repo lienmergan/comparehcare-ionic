@@ -5,3 +5,8 @@ node_modules/
 platforms/
 plugins/
 .sass-cache
+scss
+src
+.editorconfig
+config.xml
+
