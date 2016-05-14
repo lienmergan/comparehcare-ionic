@@ -1,0 +1,35 @@
+.background {
+  background: url("/img/Purple-Blur-Background1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 1030px;
+  margin: auto;
+  z-index: 2;
+  position: relative;
+}
+
+.logo {
+  background: url("/img/logo-bap.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 100%;
+  height: 246px;
+  margin: auto;
+  z-index: 3;
+  position: relative;
+}
+
+.slogan {
+  background: url("/img/slogan.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 100%;
+  height: 100px;
+  margin-top: -50px;
+  z-index: 3;
+  position: relative;
+}

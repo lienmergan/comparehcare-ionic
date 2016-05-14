@@ -1,0 +1,163 @@
+@font-face {
+  font-family: "Circula";
+  src: url("/fonts/circula-medium.otf");
+  font-weight: normal;
+  font-style: normal; }
+body, * {
+  font-family: "Lato Regular", sans-serif;
+  font-style: normal;
+  font-weight: 200; }
+
+h1, h2, h3 {
+  font-weight: 400; }
+
+h1 {
+  font-size: 32px;
+  color: #5c2e49;
+  font-family: "Circula"; }
+
+h2 {
+  font-size: 28px;
+  color: #e9b3ab;
+  font-family: "Circula"; }
+
+h3 {
+  font-size: 24px;
+  color: #788b84;
+  font-family: "Circula"; }
+
+p {
+  font-size: 15px;
+  font-weight: 200;
+  color: #788b84; }
+
+.profile-background {
+  margin: 0;
+  background-color: #f3e4ce; }
+
+.menu-container {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  max-width: 320px; }
+
+.hex-wrapper {
+  display: inline-block; }
+
+.hex-row {
+  clear: left; }
+
+.shift {
+  margin-left: 48px; }
+
+.hexagon {
+  float: left;
+  position: relative;
+  margin: 18px 3px;
+  width: 95px;
+  height: 55px;
+  background-color: #5c2e49;
+  background-position: center center;
+  z-index: 1;
+  /* Text styling */
+  text-align: center;
+  font-family: "Circula";
+  font-size: 14px;
+  font-weight: bold;
+  color: #f3e4ce;
+  cursor: pointer;
+  transition: color 500ms ease, text-shadow 500ms ease, background-color 500ms ease, -webkit-transform 1s ease-in-out; }
+
+.hexagon:hover {
+  color: #5c2e49;
+  background-color: #e9b3ab; }
+
+.hexagon .face1,
+.hexagon .face2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: inherit;
+  z-index: -1;
+  /* Keeps borders smooth in webkit */
+  backface-visibility: hidden; }
+
+.hexagon .face1:before,
+.hexagon .face2:before {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: inherit; }
+
+.hexagon .face1 {
+  transform: rotate(60deg); }
+
+.hexagon .face1:before {
+  left: 0;
+  transform-origin: left top;
+  transform: rotate(-60deg) translate(-110px, 0); }
+
+.hexagon .face2 {
+  transform: rotate(-60deg); }
+
+.hexagon .face2:before {
+  right: 0;
+  transform-origin: right top;
+  transform: rotate(60deg) translate(110px, 0); }
+
+h1:first-child {
+  margin-top: 100px; }
+
+.scroll h1 {
+  margin-left: 75px;
+  margin-right: 70px;
+  max-width: 320px; }
+
+.button.button-positive.button-outline {
+  border-color: #a8959d;
+  color: #a8959d;
+  font-family: "Circula";
+  font-size: 24px;
+  margin-left: 70px;
+  margin-right: 85px;
+  padding-left: 60px;
+  padding-right: 60px; }
+
+.background {
+  background: url("/img/Purple-Blur-Background1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 1030px;
+  margin: auto;
+  z-index: 2;
+  position: relative; }
+
+.logo {
+  background: url("/img/logo-bap.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 100%;
+  height: 246px;
+  margin: auto;
+  z-index: 3;
+  position: relative; }
+
+.slogan {
+  background: url("/img/slogan.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 100%;
+  height: 100px;
+  margin-top: -50px;
+  z-index: 3;
+  position: relative; }
+
+/*# sourceMappingURL=style.css.map */

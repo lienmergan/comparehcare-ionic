@@ -1,0 +1,17 @@
+{
+  "name": "Ziekenfondsen_vergelijken",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.3.0"
+  },
+  "dependencies": {
+    "angular-resource": "^1.5.5",
+    "angular-ui-router": "^0.2.18",
+    "ngCordova": "^0.1.26-alpha",
+    "font-awesome": "^4.6.2"
+  },
+  "resolutions": {
+    "angular-ui-router": "^0.2.18",
+    "angular": ">= 1.2.23"
+  }
+}

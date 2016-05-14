@@ -1,0 +1,46 @@
+$primary-font-family: "Lato Regular";
+$font-title: "Circula";
+$font-weight-general: 200;
+$font-weight-bold: 400;
+
+
+@font-face {
+    font-family: "Circula";
+    src: url('/fonts/circula-medium.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, * {
+  font-family: $primary-font-family, sans-serif;
+  font-style: normal;
+  font-weight: $font-weight-general;
+}
+
+h1, h2, h3 {
+  font-weight: $font-weight-bold;
+}
+
+h1 {
+  font-size: 32px;
+  color: #5c2e49;
+  font-family: $font-title;
+}
+
+h2 {
+  font-size: 28px;
+  color: #e9b3ab;
+  font-family: $font-title;
+}
+
+h3 {
+  font-size: 24px;
+  color: #788b84;
+  font-family: $font-title;
+}
+
+p {
+  font-size: 15px;
+  font-weight: $font-weight-general;
+  color: #788b84;
+}
