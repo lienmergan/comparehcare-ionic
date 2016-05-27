@@ -11,30 +11,39 @@
 body, * {
   font-family: "Lato Regular", sans-serif;
   font-style: normal;
-  font-weight: 200; }
+  font-weight: 200;
+  text-rendering: optimizeLegibility; }
 
 h1, h2, h3 {
-  font-weight: 400; }
+  font-weight: 400;
+  text-rendering: optimizeLegibility; }
 
 h1 {
-  font-size: 32px;
+  font-size: 30px;
   color: #5c2e49;
-  font-family: "Circula"; }
+  font-family: "Circula";
+  text-rendering: optimizeLegibility; }
+
+h1:first-child {
+  font-size: 30px; }
 
 h2 {
   font-size: 28px;
   color: #e9b3ab;
-  font-family: "Circula"; }
+  font-family: "Circula";
+  text-rendering: optimizeLegibility; }
 
 h3 {
   font-size: 24px;
   color: #788b84;
-  font-family: "Circula"; }
+  font-family: "Circula";
+  text-rendering: optimizeLegibility; }
 
 p {
   font-size: 15px;
   font-weight: 200;
-  color: #788b84; }
+  color: #788b84;
+  text-rendering: optimizeLegibility; }
 
 .profile-background {
   margin: 0;
@@ -51,7 +60,7 @@ p {
 .menu-container {
   text-align: center;
   margin: 0 auto;
-  min-width: 320px; }
+  max-width: 320px; }
 
 .hex-wrapper {
   display: inline-block;
@@ -197,6 +206,13 @@ option p {
   .card-container .card {
     min-width: 320px;
     margin: 0 auto; }
+    .card-container .card .item {
+      background-color: #a8959d;
+      opacity: 0.5; }
+    .card-container .card .item-text-wrap h2 {
+      color: #f3e4ce;
+      font-family: "Circula";
+      font-size: 24px; }
   .card-container .row {
     padding: 0;
     width: 0;
