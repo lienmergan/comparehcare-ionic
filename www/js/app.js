@@ -12,19 +12,22 @@
         'ionic',
         'ngCordova',
         'ngResource',
+        'chosen',
         // Modules
         'app.home',
         'app.common',
         'app.database',
         'app.services',
-        'angucomplete',
-        'app.profile'
+        'app.profile',
+        'app.overview'
     ]);
     angular.module('app.home'  , []);
     angular.module('app.common', []);
     angular.module('app.database', []);
     angular.module('app.services', []);
     angular.module('app.profile', []);
+    angular.module('chosen', []);
+    angular.module('app.overview', []);
 
     app.run(function($ionicPlatform) {
         $ionicPlatform.ready(whenReady);
@@ -369,9 +372,26 @@ angular.module('angucomplete', [] )
 });
 
 
-/**
- * Created by lienmergan on 06/05/16.
- */
+;(function () {
+    'use strict';
+
+    angular.module('app.home')
+        .directive('chosen', function() {
+          var linker = function(scope,element,attr){
+            scope.$watch('placeList', function () {
+              element.trigger('list:updated');
+            });
+            element.chosen();
+          };
+
+      return {
+        restrict:'A',
+        link: linker
+      }
+        });
+
+
+})();
 
 ;(function () {
     'use strict';
@@ -411,6 +431,31 @@ angular.module('angucomplete', [] )
     }
 })();
 
+;(function () {
+    'use strict';
+
+    angular.module('app.home')
+        .factory('CityServiceFactory', CityServiceFactory);
+
+    function CityServiceFactory() {
+        var city = {};
+
+        return city;
+
+        // return {
+        //   getCityObject: function () {
+        //       // city.postalCode = '';
+        //       return city;
+        //   },
+        //   setCityObject: function (cityObject) {
+        //       city = cityObject;
+        //   }
+        // };
+
+        // city.postalCode = '';
+    }
+})();
+
 /**
  * Created by lienmergan on 23/04/16.
  */
@@ -441,10 +486,6 @@ angular.module('angucomplete', [] )
 
 })();
 
-/**
- * Created by lienmergan on 23/04/16.
- */
-
 ;(function () {
     'use strict';
 
@@ -459,7 +500,8 @@ angular.module('angucomplete', [] )
         '$scope',
         // Custom
         'PostalcodesResourceFactory',
-        'CitiesResourceFactory'
+        'CitiesResourceFactory',
+        'CityServiceFactory'
     ];
 
     function HomeCtrl(
@@ -469,31 +511,88 @@ angular.module('angucomplete', [] )
         $scope,
         // Custom
         PostalcodesResourceFactory,
-        CitiesResourceFactory
+        CitiesResourceFactory,
+        CityServiceFactory
     ) {
         // ViewModel
         // =========
         var vm = this;
+        var _selected;
 
         vm.title = 'Home';
         vm.cities = getCities();
         vm.postalcodes = getPostalcodes();
+        vm.selectedPostalcodeCity = vm.postalcodes[0];
+        CityServiceFactory = [];
+
+        $scope.addPostalcodeCity = function () {
+          CityServiceFactory.push({
+            code: vm.selectedPostalcodeCity.code});
+            $log.info('Gekozen postcode:', CityServiceFactory);
+        };
+
+
+        // CityServiceFactory = vm.selectedPostalcodeCity;
+        // $log.info('Gekozen postalcode:', CityServiceFactory);
+
+        // vm.changedValue = function(item) {
+        //   vm.selectedItems.push(item.code);
+        //   $log.info('Gekozen postcode:', item.code)
+        // };
+
+
+        // $log.info('Gekozen postcode:', vm.selectedPostalcodeCity);
+
+        // vm.showSelectValue = function(selectedPostalcodeCity) {
+        //   // var code = selectedPostalcodeCity.code;
+        //   $log.info('Gekozen postalcode:', vm.selectedPostalcodeCity.code);
+        //   // CityServiceFactory = code;
+        // };
+
+
+        // $scope.input = {};
+        // $scope.$watch('input', function (newValue, oldValue) {
+        //   if (newValue !== oldValue) CityServiceFactory.setCityObject(newValue);
+        // }, true);
+
+        // vm.label = CityServiceFactory;
+        // vm.placeList = [];
+        // vm.clicked = itemClicked(callback);
+        // vm.selected = undefined;
 
         // Functions
         // ----------
         function getPostalcodes() {
           return PostalcodesResourceFactory.query();
         }
+        // vm.placeList = getPostalcodes();
 
         function getCities() {
           return CitiesResourceFactory.query();
         }
-    }
-})();
 
-/**
- * Created by lienmergan on 24/04/16.
- */
+        // function itemClicked(callback) {
+        //   // print out the selected item
+        //   console.log(callback.item);
+        // }
+        //
+        // vm.ngModelOptionsSelected = function(value) {
+        //   if (postalcodes.length) {
+        //     _selected = value;
+        //   } else {
+        //     return _selected;
+        //   }
+        // };
+        //
+        // vm.modelOptions = {
+        //   debounce: {
+        //     default: 500,
+        //     blur: 250
+        //   },
+        //   getterSetter: true
+        // };
+      }
+})();
 
 ;(function () {
     'use strict';
@@ -533,13 +632,251 @@ angular.module('angucomplete', [] )
     }
 })();
 
-/**
- * Created by lienmergan on 14/05/16.
- */
+;(function () {
+    'use strict';
 
-/**
- * Created by lienmergan on 09/05/16.
- */
+    angular.module('app.overview')
+        .factory('HealthInsuranceContributionResourceFactory', HealthInsuranceContributionResourceFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    HealthInsuranceContributionResourceFactory.$inject = [
+        // Angular
+        '$resource',
+        // Custom
+        'UriFactory'
+    ];
+
+    function HealthInsuranceContributionResourceFactory(
+        // Angular
+        $resource,
+        // Custom
+        UriFactory
+    ) {
+        var url = UriFactory.getApi('/healthinsurancecontributions');
+
+        var paramDefaults = {
+            format : 'json'
+        };
+
+        var actions = {
+            'get': {
+                method: 'GET',
+                isArray: false
+            }
+        };
+
+        return $resource(url, actions, paramDefaults);
+    }
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.overview')
+        .factory('HealthInsuranceResourceFactory', HealthInsuranceResourceFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    HealthInsuranceResourceFactory.$inject = [
+        // Angular
+        '$resource',
+        // Custom
+        'UriFactory'
+    ];
+
+    function HealthInsuranceResourceFactory(
+        // Angular
+        $resource,
+        // Custom
+        UriFactory
+    ) {
+        var url = UriFactory.getApi('/healthinsurances');
+
+        var paramDefaults = {
+            format : 'json'
+        };
+
+        var actions = {
+            'get': {
+                method: 'GET',
+                isArray: false
+            }
+        };
+
+        return $resource(url, actions, paramDefaults);
+    }
+})();
+
+
+;(function () {
+    'use strict';
+
+    angular.module('app.overview')
+        .config(Routes);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    Routes.$inject = [
+        // Angular
+        '$stateProvider'
+    ];
+
+    function Routes(
+        // Angular
+        $stateProvider
+    ) {
+        $stateProvider
+            .state('overview', {
+                controller: 'OverviewCtrl as vm',
+                templateUrl: 'templates/overview/overview.view.html',
+                url: '/overview'
+            });
+    }
+
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.overview')
+        .controller('OverviewCtrl', OverviewCtrl);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    OverviewCtrl.$inject = [
+        // Angular
+        '$log',
+        '$state',
+        '$scope',
+        // Custom
+        'HealthInsuranceResourceFactory',
+        'HealthInsuranceContributionResourceFactory'
+    ];
+
+    function OverviewCtrl(
+        // Angular
+        $log,
+        $state,
+        $scope,
+        // Custom
+        HealthInsuranceResourceFactory,
+        HealthInsuranceContributionResourceFactory
+    ) {
+        // ViewModel
+        // =========
+        var vm = this;
+
+        vm.title = "Mogelijke ziekenfondsen";
+        vm.healthinsurances = getHealthInsurances();
+        vm.healthinsurancecontributions = getHealthInsuranceContributions();
+
+        // Functions
+        // ----------
+        function getHealthInsurances() {
+          return HealthInsuranceResourceFactory.query();
+        }
+
+        function getHealthInsuranceContributions() {
+          return HealthInsuranceContributionResourceFactory.query();
+        }
+      }
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.profile')
+        .factory('HouseholdtypesResourceFactory', HouseholdtypesResourceFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    HouseholdtypesResourceFactory.$inject = [
+        // Angular
+        '$resource',
+        // Custom
+        'UriFactory'
+    ];
+
+    function HouseholdtypesResourceFactory(
+        // Angular
+        $resource,
+        // Custom
+        UriFactory
+    ) {
+        var url = UriFactory.getApi('/householdtypes');
+
+        var paramDefaults = {
+            format : 'json'
+        };
+
+        var actions = {
+            'get': {
+                method: 'GET',
+                isArray: false
+            }
+        };
+
+
+        return $resource(url, actions, paramDefaults);
+    }
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.profile')
+        .factory('HouseholdtypesSpecificResourceFactory', HouseholdtypesSpecificResourceFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    HouseholdtypesSpecificResourceFactory.$inject = [
+        // Angular
+        '$resource',
+        // Custom
+        'UriFactory'
+    ];
+
+    function HouseholdtypesSpecificResourceFactory(
+        // Angular
+        $resource,
+        // Custom
+        UriFactory
+    ) {
+        var url = UriFactory.getApi('/householdtypes/:household_type_id');
+
+        var paramDefaults = {
+            household_type_id: '@id',
+            format : 'json'
+        };
+
+        var actions = {
+            'get': {
+                method: 'GET',
+                isArray: false
+            }
+        };
+
+
+        return $resource(url, actions, paramDefaults);
+    }
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.profile')
+        .factory('ProfileServiceFactory', ProfileServiceFactory);
+
+    function ProfileServiceFactory() {
+        var profile = {};
+
+        // return profile;
+
+        return {
+          getProfileObject: function () {
+              return profile;
+          },
+          setProfileObject: function (profileObject) {
+              profile = profileObject;
+          }
+        };
+    }
+})();
 
 ;(function () {
     'use strict';
@@ -567,10 +904,6 @@ angular.module('angucomplete', [] )
 
 })();
 
-/**
- * Created by lienmergan on 09/05/16.
- */
-
 ;(function () {
     'use strict';
 
@@ -582,24 +915,157 @@ angular.module('angucomplete', [] )
         // Angular
         '$log',
         '$state',
-        '$scope'
+        '$scope',
         // Custom
-
+        'HouseholdtypesResourceFactory',
+        'HouseholdtypesSpecificResourceFactory',
+        'CityServiceFactory',
+        'ProfileServiceFactory'
     ];
 
     function ProfileCtrl(
         // Angular
         $log,
         $state,
-        $scope
+        $scope,
         // Custom
+        HouseholdtypesResourceFactory,
+        HouseholdtypesSpecificResourceFactory,
+        CityServiceFactory,
+        ProfileServiceFactory
     ) {
         // ViewModel
         // =========
         var vm = this;
 
         vm.title = 'Kies uw profiel';
-    }
+        vm.householdtypes = getHouseholdtypes();
+        vm.alleenstaand = getHouseholdtypeAlleenstaand();
+        vm.koppels = getHouseholdtypeKoppels();
+        vm.gezinKleineKinderen = getHouseholdtypeGezinKleineKinderen();
+        vm.gezinTieners = getHouseholdtypeGezinTieners();
+        vm.senioren = getHouseholdtypeSenioren();
+
+        $log.info('Gekozen postcode:', CityServiceFactory);
+        ProfileServiceFactory = [];
+
+        $scope.addHouseholdTypeAlleenstaand = function () {
+            ProfileServiceFactory.push({
+            household_type: vm.alleenstaand.household_type});
+            $log.info('Gekozen profiel:', ProfileServiceFactory);
+        };
+
+        $scope.addHouseholdTypeKoppels = function () {
+            ProfileServiceFactory.push({
+            household_type: vm.koppels.household_type});
+            $log.info('Gekozen profiel:', ProfileServiceFactory);
+        };
+
+        $scope.addHouseholdTypeGezinKleineKinderen = function () {
+            ProfileServiceFactory.push({
+            household_type: vm.gezinKleineKinderen.household_type});
+            $log.info('Gekozen profiel:', ProfileServiceFactory);
+        };
+
+        $scope.addHouseholdTypeGezinTieners = function () {
+            ProfileServiceFactory.push({
+            household_type: vm.gezinTieners.household_type});
+            $log.info('Gekozen profiel:', ProfileServiceFactory);
+        };
+
+        $scope.addHouseholdTypeSenioren = function () {
+            ProfileServiceFactory.push({
+            household_type: vm.senioren.household_type});
+            $log.info('Gekozen profiel:', ProfileServiceFactory);
+        };
+
+        $log.info('Gekozen postcode:', CityServiceFactory);
+
+        // $scope.input = {};
+        // $scope.city = getCity();
+        // vm.input = CityServiceFactory;
+        // vm.label = CityServiceFactory;
+
+
+        // vm.selected = ProfileServiceFactory;
+        // $log.info('Gekozen householdtype:', vm.selected);
+
+        // Functions
+        // ----------
+        function getHouseholdtypes() {
+          return HouseholdtypesResourceFactory.query();
+        }
+
+        function getHouseholdtypeAlleenstaand() {
+          var params = {
+                household_type_id: 1
+          };
+          return HouseholdtypesSpecificResourceFactory.get(params);
+        }
+
+        function getHouseholdtypeKoppels() {
+          var params = {
+                household_type_id: 2
+          };
+          return HouseholdtypesSpecificResourceFactory.get(params);
+        }
+
+        function getHouseholdtypeGezinKleineKinderen() {
+          var params = {
+                household_type_id: 3
+          };
+          return HouseholdtypesSpecificResourceFactory.get(params);
+        }
+
+        function getHouseholdtypeGezinTieners() {
+          var params = {
+                household_type_id: 4
+          };
+          return HouseholdtypesSpecificResourceFactory.get(params);
+        }
+
+        function getHouseholdtypeSenioren() {
+          var params = {
+                household_type_id: 5
+          };
+          return HouseholdtypesSpecificResourceFactory.get(params);
+        }
+
+        // function getCity() {
+        //   $scope.input = CityServiceFactory.getCityObject();
+        // }
+
+        // $scope.addHouseholdType = function (household_type) {
+        //   switch (household_type) {
+        //       case vm.alleenstaand:
+        //           ProfileServiceFactory.push({
+        //             household_type: vm.alleenstaand.household_type});
+        //             $log.info('Gekozen profiel:', ProfileServiceFactory);
+        //           break;
+        //       case vm.koppels:
+        //           ProfileServiceFactory.push({
+        //             household_type: vm.koppels.household_type});
+        //             $log.info('Gekozen profiel:', ProfileServiceFactory);
+        //           break;
+        //       case vm.gezinKleineKinderen:
+        //           ProfileServiceFactory.push({
+        //             household_type: vm.gezinKleineKinderen.household_type});
+        //             $log.info('Gekozen profiel:', ProfileServiceFactory);
+        //           break;
+        //       case vm.gezinTieners:
+        //           ProfileServiceFactory.push({
+        //             household_type: vm.gezinTieners.household_type});
+        //             $log.info('Gekozen profiel:', ProfileServiceFactory);
+        //           break;
+        //       case vm.senioren:
+        //           ProfileServiceFactory.push({
+        //             household_type: vm.senioren.household_type});
+        //             $log.info('Gekozen profiel:', ProfileServiceFactory);
+        //           break;
+        //       default:
+        //   }
+        // };
+      }
 })();
 
 /**

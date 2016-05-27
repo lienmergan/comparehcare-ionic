@@ -1,0 +1,24 @@
+<ion-view title="{{ vm.title }}">
+  <ion-content class="profile-background">
+    <div class="menu-container">
+      <div class="container title-margin">
+        <h1 class="title">{{ vm.title }}</h1>
+      </div>
+    </div>
+    <div class="card-container">
+      <div class="row" ng-repeat="healthinsurancecontribution in vm.healthinsurancecontributions">
+            <div class="card">
+              <div class="item item-text-wrap">
+                <p>{{ healthinsurancecontribution.health_insurance.name }}</p>
+                <span>Jaarlijkse bijdrage: {{ healthinsurancecontribution.contribution }} euro</span><br/>
+                <a href="{{ healthinsurancecontribution.health_insurance.url }}">Meer informatie</a>
+              </div>
+            </div>
+        </div>
+      <!--<div class="col">-->
+        <!---->
+      <!--</div>-->
+    </div>
+  </ion-content>
+</ion-view>
+

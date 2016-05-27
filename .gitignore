@@ -9,4 +9,5 @@ scss
 src
 .editorconfig
 config.xml
+.env
 

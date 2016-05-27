@@ -3,52 +3,90 @@
     <div class="background">
       <div class="logo"></div>
       <div class="slogan"></div>
+      <div class="container choice-list">
+        <div class="list">
+          <label class="item item-input item-select select_postcode">
+            <select ng-model="vm.selectedPostalcodeCity" ng-options="postalcode as postalcode.code for postalcode in vm.postalcodes | orderBy:'code'">
+                <option value=""><p>Kies hier uw postcode of stad...</p></option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <a href="#/profile"><button class="button button-outline button-positive" ng-click="addPostalcodeCity()">Volgende</button></a>
     </div>
 
+    <!--<div class="list list-inset">-->
+          <!--<label class="item item-input">-->
+            <!--<i class="icon ion-location placeholder-icon"></i>-->
+            <!--<input type="text" placeholder="Postcode of stad" ng-model="vm.input.postalcode">-->
+          <!--</label>-->
+    <!--</div>-->
+
+    <!--<div class="list">-->
+
+      <!--<label class="item item-input item-select">-->
+        <!--<select>-->
+          <!--<option>Blue</option>-->
+          <!--<option selected>Green</option>-->
+          <!--<option>Red</option>-->
+        <!--</select>-->
+      <!--</label>-->
+
+    <!--</div>-->
+
+    <!--<select data-placeholder="Kies hier uw postcode of stad" chosen ng-model="places" ng-options="place.city.name for place in placeList"></select>-->
+    <!--<p ng-repeat="place in places">{{ place.city.name }}</p>-->
+
     <!--<div class="large-padded-row">-->
-      <!--<h3>Example 1</h3>-->
-      <!--<div class="padded-row">-->
-        <!--<angucomplete-->
-          <!--id="cities"-->
-          <!--placeholder="Search cities"-->
-          <!--pause="400"-->
-          <!--selectedobject="selectedCity"-->
-          <!--url="http://127.0.0.1:8000/www/api/postalcodes/find?searchstr=city.name"-->
-          <!--datafield="postalcodes"-->
-          <!--titlefield="city.name"-->
-          <!--minlength="1"-->
-          <!--inputclass="form-control form-control-small"-->
-          <!--matchclass="highlight" />-->
+        <!--<h3>Example 1</h3>-->
+        <!--<div class="padded-row">-->
+          <!--<angucomplete-->
+            <!--id="cities"-->
+            <!--placeholder="Search cities"-->
+            <!--pause="400"-->
+            <!--selectedobject="selectedCity"-->
+            <!--url= "http://bap-comparehcare.herokuapp.com/www/api/cities"-->
+            <!--datafield="cities"-->
+            <!--titlefield="name"-->
+            <!--minlength="1"-->
+            <!--inputclass="form-control form-control-small"-->
+            <!--matchclass="highlight" />-->
+        <!--</div>-->
       <!--</div>-->
       <!--<div class="" ng-show="selectedCity">-->
         <!--You selected <span class="bold-span">{{selectedCity.originalObject.name}}</span>-->
       <!--</div>-->
-    <!--</div>-->
+
+    <!--<pre>Model: {{ngModelOptionsSelected | json}}</pre>-->
+    <!--<input type="text" ng-model="ngModelOptionsSelected" ng-model-options="modelOptions" uib-typeahead="postalcode.id for postalcode.id in postalcodes | filter:$viewValue | limitTo:3" class="form-control">-->
+
     <!--<div class="container">-->
       <!--<h1>TypeAhead Using AngularJS</h1>-->
       <!--<typeahead items="items" prompt="Start typing a US state" title="name" subtitle="abbreviation" model="name" on-select="onItemSelected()" />-->
     <!--</div>-->
-      <!--<form>-->
-        <!--<label class="item item-input">-->
-          <!--<span class="input-label">Autocomplete postalcodes</span>-->
-            <!--<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"-->
-                   <!--item-value-key="id"-->
-                   <!--item-view-value-key="city.name"-->
-                   <!--items-method="getItems()"-->
-                   <!--items-method-value-key="items"-->
-                   <!--items-clicked-method="itemsClicked(callback)"-->
-                   <!--placeholder="Voer hier uw stad in..."-->
-                   <!--max-selected-items="1"/>-->
-            <!--</label>-->
-      <!--</form>-->
-      <!--<ion-list class="list animate-fade-slide-in-right">-->
+    <!--<ion-list class="list animate-fade-slide-in-right">-->
           <!--<ion-item ng-repeat="city in vm.cities">-->
               <!--<a class="item item-avatar item-icon-right">-->
                   <!--<p>{{ city.id}}</p>-->
                   <!--<p>{{ city.name }}</p>-->
               <!--</a>-->
           <!--</ion-item>-->
-      <!--</ion-list>-->
+    <!--</ion-list>-->
+
+    <!--<form>-->
+        <!--<label class="item item-input">-->
+          <!--<span class="input-label">Autocomplete postalcodes</span>-->
+            <!--<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" ng-model="model"-->
+                   <!--item-value-key="id"-->
+                   <!--item-view-value-key="city.name"-->
+                   <!--items-method="getPostalcodes(query)"-->
+                   <!--items-method-value-key="items"-->
+                   <!--items-clicked-method="itemClicked(callback)"-->
+                   <!--placeholder="Voer hier uw stad in..."-->
+                   <!--max-selected-items="1"/>-->
+            <!--</label>-->
+    <!--</form>-->
+
   </ion-content>
 </ion-view>
 
