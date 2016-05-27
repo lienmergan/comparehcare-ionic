@@ -9,7 +9,7 @@
       <div class="row" ng-repeat="healthinsurancecontribution in vm.healthinsurancecontributions">
             <div class="card">
               <div class="item item-text-wrap">
-                <p>{{ healthinsurancecontribution.health_insurance.name }}</p>
+                <h2>{{ healthinsurancecontribution.health_insurance.name }}</h2>
                 <span>Jaarlijkse bijdrage: {{ healthinsurancecontribution.contribution }} euro</span><br/>
                 <a href="{{ healthinsurancecontribution.health_insurance.url }}">Meer informatie</a>
               </div>
