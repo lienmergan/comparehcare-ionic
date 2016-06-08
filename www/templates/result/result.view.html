@@ -1,0 +1,40 @@
+<ion-view title="{{ vm.title }}">
+  <ion-content class="profile-background">
+    <div class="tabs tabs-icon-only tabs-top">
+      <a class="tab-item" href="#/">
+        <i class="icon ion-home"></i>
+      </a>
+      <a class="tab-item" href="#/profile">
+        <i class="icon ion-person"></i>
+      </a>
+      <a class="tab-item" href="#/overview">
+        <i class="icon ion-document-text"></i>
+      </a>
+    </div>
+    <div class="menu-container">
+      <div class="title-margin">
+        <h1 class="title">{{ vm.title }}</h1>
+      </div>
+    </div>
+    <div class="card-container">
+      <div class="col row" ng-repeat="healthinsurancecontribution in vm.healthinsurancecontributions | orderBy:'-contribution':true | limitTo: 3">
+        <div class="card">
+          <div class="item item-text-wrap">
+            <h3>{{ healthinsurancecontribution.health_insurance.name }}</h3>
+            <span class="contribution">Jaarlijkse bijdrage: {{ healthinsurancecontribution.contribution }} euro</span>
+            <h4 class="category">Diëtiek</h4>
+            <!--<p ng-if="vm.healthinsurancebenefits.health_insurance.name == 'Liberale Mut. Oost-Vlaanderen' ">{{ vm.healthinsurancebenefits.description }}</p>-->
+            <div ng-repeat="healthinsurancebenefit in vm.healthinsurancebenefits">
+              <p>{{ healthinsurancebenefit.description}}</p>
+              <!--<div ng-switch="vm.healthinsurancebenefit.health_insurance.name">-->
+                <!--<span ng-switch-when="Liberale Mut. Oost-Vlaanderen">{{ healthinsurancebenefit.description}}</span>-->
+                <!--<span ng-switch-when="NZVL - Aalst">{{ healthinsurancebenefit.description}}</span>-->
+                <!--<span ng-switch-when="CM-Midden-Vlaanderen">{{ healthinsurancebenefit.description}}</span>-->
+              <!--</div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

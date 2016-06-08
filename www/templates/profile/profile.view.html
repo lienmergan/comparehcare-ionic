@@ -1,7 +1,5 @@
 <ion-view title="{{ vm.title }}">
   <ion-content class="profile-background">
-      <!--<h1 class="title">{{ vm.title }}</h1>-->
-    <!--<a class="button icon-left ion-chevron-left button-clear button-dark">Back</a>-->
     <div class="menu-container">
       <div class="title-margin">
         <h1 class="title">{{ vm.title }}</h1>
@@ -9,18 +7,20 @@
       <div class="hex-wrapper choice-list">
         <div class="hex-row">
           <div class="hexagon" id="nav-alleenstaand" ng-click="addHouseholdTypeAlleenstaand()">
-            <!--Alleenstaand-->
             <p>{{ vm.alleenstaand.household_type }}</p>
+            <div class="icon-profile"><img src="img/boy-with-rised-arms_beige.png"></div>
             <div class="face1"></div>
             <div class="face2"></div>
           </div>
           <div class="hexagon" id="nav-koppels" ng-click="addHouseholdTypeKoppels()">
             <p>{{ vm.koppels.household_type }}</p>
+            <div class="icon-profile"><img src="img/couple-of-man-and-woman-in-love_beige.png"></div>
             <div class="face1"></div>
             <div class="face2"></div>
           </div>
           <div class="hexagon" id="nav-gezin-kleine-kinderen" ng-click="addHouseholdTypeGezinKleineKinderen()">
             <p>{{ vm.gezinKleineKinderen.household_type }}</p>
+            <div class="gezin-kleinekinderen"><img src="img/family-group-of-a-couple-with-three-children_beige.png"></div>
             <div class="face1"></div>
             <div class="face2"></div>
           </div>
@@ -28,11 +28,13 @@
         <div class="hex-row shift">
           <div class="hexagon" id="nav-gezin-tieners" ng-click="addHouseholdTypeGezinTieners()">
             <p>{{ vm.gezinTieners.household_type }}</p>
+            <div class="icon-profile"><img src="img/familiar-group-of-mother-father-son-and-daughter_beige.png"></div>
             <div class="face1"></div>
             <div class="face2"></div>
           </div>
           <div class="hexagon" id="nav-senioren" ng-click="addHouseholdTypeSenioren()">
             <p>{{ vm.senioren.household_type }}</p>
+            <div class="icon-profile"><img src="img/elderly-couple_beige.png"></div>
             <div class="face1"></div>
             <div class="face2"></div>
           </div>

@@ -9,7 +9,7 @@
   font-weight: normal;
   font-style: normal; }
 body, * {
-  font-family: "Lato Regular", sans-serif;
+  font-family: "Lato Regular", "Helvetica-Neue", sans-serif;
   font-style: normal;
   font-weight: 200;
   text-rendering: optimizeLegibility; }
@@ -91,11 +91,24 @@ p {
   transition: color 500ms ease, text-shadow 500ms ease, background-color 500ms ease, -webkit-transform 1s ease-in-out; }
   .hexagon p {
     z-index: 2;
-    color: #f3e4ce; }
+    color: #f3e4ce;
+    margin-bottom: 0; }
+  .hexagon img {
+    z-index: 2;
+    max-height: 45px; }
 
-.hexagon .selected {
-  color: #5c2e49;
+.icon-profile {
+  margin: 0 auto; }
+
+.gezin-kleinekinderen img {
+  max-height: 25px; }
+
+.checkedClass {
   background-color: #e9b3ab; }
+
+.uncheckedClass {
+  background-color: #5c2e49;
+  color: #f3e4ce; }
 
 .hexagon .face1,
 .hexagon .face2 {
@@ -139,6 +152,9 @@ h1:first-child {
 
 .scroll h1 {
   min-width: 320px; }
+
+body {
+  cursor: url("http://ionicframework.com/img/finger.png"), auto; }
 
 .button.button-positive.button-outline {
   margin: 0 auto;
@@ -218,5 +234,39 @@ option p {
     width: 0;
     margin-left: 0;
     margin-right: 0; }
+
+.menu-container .buttons .button {
+  color: #5c2e49;
+  float: right;
+  margin-top: -38px; }
+.menu-container .buttons .button-icon {
+  font-size: 25px; }
+
+.popover-wrapper .popover {
+  display: unset;
+  width: 240px;
+  height: 290px; }
+.popover-wrapper .item {
+  font-size: 12px; }
+
+.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
+  background: #e9b3ab;
+  border-color: #e9b3ab; }
+
+.tabs {
+  background-color: #a8959d;
+  color: #dac4ba; }
+
+.contribution {
+  font-size: 16px;
+  color: #5c2e49;
+  font-weight: bold; }
+
+.item .category {
+  font-size: 18px;
+  color: #e9b3ab;
+  font-weight: 700; }
+.item p {
+  color: #f3e4ce; }
 
 /*# sourceMappingURL=style.css.map */

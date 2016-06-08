@@ -19,7 +19,8 @@
         'app.database',
         'app.services',
         'app.profile',
-        'app.overview'
+        'app.overview',
+        'app.result'
     ]);
     angular.module('app.home'  , []);
     angular.module('app.common', []);
@@ -28,6 +29,8 @@
     angular.module('app.profile', []);
     angular.module('chosen', []);
     angular.module('app.overview', []);
+    angular.module('app.result', []);
+
 
     app.run(function($ionicPlatform) {
         $ionicPlatform.ready(whenReady);
@@ -637,6 +640,65 @@ angular.module('angucomplete', [] )
     'use strict';
 
     angular.module('app.overview')
+        .factory('BenefitServiceFactory', BenefitServiceFactory);
+
+    function BenefitServiceFactory() {
+        var benefit = {};
+
+        // return profile;
+
+        return {
+          getBenefitObject: function () {
+              return benefit;
+          },
+          setBenefitObject: function (benefitObject) {
+              benefit = benefitObject;
+          }
+        };
+    }
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.overview')
+        .factory('CategoryResourceFactory', CategoryResourceFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    CategoryResourceFactory.$inject = [
+        // Angular
+        '$resource',
+        // Custom
+        'UriFactory'
+    ];
+
+    function CategoryResourceFactory(
+        // Angular
+        $resource,
+        // Custom
+        UriFactory
+    ) {
+        var url = UriFactory.getApi('/categories');
+
+        var paramDefaults = {
+            format : 'json'
+        };
+
+        var actions = {
+            'get': {
+                method: 'GET',
+                isArray: false
+            }
+        };
+
+        return $resource(url, actions, paramDefaults);
+    }
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.overview')
         .factory('HealthInsuranceContributionResourceFactory', HealthInsuranceContributionResourceFactory);
 
     // Inject dependencies into constructor (needed when JS minification is applied).
@@ -707,7 +769,6 @@ angular.module('angucomplete', [] )
     }
 })();
 
-
 ;(function () {
     'use strict';
 
@@ -746,9 +807,12 @@ angular.module('angucomplete', [] )
         '$log',
         '$state',
         '$scope',
+        '$ionicPopover',
         // Custom
         'HealthInsuranceResourceFactory',
-        'HealthInsuranceContributionResourceFactory'
+        'HealthInsuranceContributionResourceFactory',
+        'CategoryResourceFactory',
+        'BenefitServiceFactory'
     ];
 
     function OverviewCtrl(
@@ -756,26 +820,72 @@ angular.module('angucomplete', [] )
         $log,
         $state,
         $scope,
+        $ionicPopover,
         // Custom
         HealthInsuranceResourceFactory,
-        HealthInsuranceContributionResourceFactory
+        HealthInsuranceContributionResourceFactory,
+        CategoryResourceFactory,
+        BenefitServiceFactory
     ) {
         // ViewModel
         // =========
         var vm = this;
 
         vm.title = "Mogelijke ziekenfondsen";
+        vm.titlePopOver = "Voordelen";
         vm.healthinsurances = getHealthInsurances();
         vm.healthinsurancecontributions = getHealthInsuranceContributions();
+        vm.categories = getCategories();
+        vm.selectedCategory = vm.categories[0];
+        BenefitServiceFactory = [];
+
+        $ionicPopover.fromTemplateUrl('templates/overview/pop-over.view.html', {
+            scope: $scope })
+            .then(function(popover) {
+              $scope.popover = popover;
+            });
+
+        //  $scope.toggleSelection = function toggleSelection(selectedCategory) {
+        //   var idx = BenefitServiceFactory.indexOf(selectedCategory);
+        //
+        //   if (idx > -1){
+        //     BenefitServiceFactory.splice(idx, 1);
+        //   }
+        //   else {
+        //     BenefitServiceFactory.push({
+        //     name: vm.selectedCategory.name});
+        //     $log.info('Gekozen voordelen:', BenefitServiceFactory);
+        //   }
+        // };
+
+        $scope.toggleSelection = function toggleSelection(categoryName) {
+          var idx = BenefitServiceFactory.indexOf(categoryName);
+
+          if (idx > -1){
+            BenefitServiceFactory.splice(idx, 1);
+          }
+          else {
+            BenefitServiceFactory.push(categoryName);
+            $log.info('Gekozen voordelen:', BenefitServiceFactory);
+          }
+        };
+
+         $scope.hidePopover = function() {
+          $scope.popover.hide();
+        };
 
         // Functions
         // ----------
-        function getHealthInsurances() {
-          return HealthInsuranceResourceFactory.query();
+        function getCategories() {
+          return CategoryResourceFactory.query();
         }
 
         function getHealthInsuranceContributions() {
           return HealthInsuranceContributionResourceFactory.query();
+        }
+
+        function getHealthInsurances() {
+          return HealthInsuranceResourceFactory.query();
         }
       }
 })();
@@ -946,14 +1056,16 @@ angular.module('angucomplete', [] )
         vm.gezinKleineKinderen = getHouseholdtypeGezinKleineKinderen();
         vm.gezinTieners = getHouseholdtypeGezinTieners();
         vm.senioren = getHouseholdtypeSenioren();
+        // $scope.myStyle = {};
 
-        $log.info('Gekozen postcode:', CityServiceFactory);
+        // $log.info('Gekozen postcode:', CityServiceFactory);
         ProfileServiceFactory = [];
 
         $scope.addHouseholdTypeAlleenstaand = function () {
             ProfileServiceFactory.push({
             household_type: vm.alleenstaand.household_type});
             $log.info('Gekozen profiel:', ProfileServiceFactory);
+            // ProfileServiceFactory.isChecked = true;
         };
 
         $scope.addHouseholdTypeKoppels = function () {
@@ -980,7 +1092,7 @@ angular.module('angucomplete', [] )
             $log.info('Gekozen profiel:', ProfileServiceFactory);
         };
 
-        $log.info('Gekozen postcode:', CityServiceFactory);
+        // $log.info('Gekozen postcode:', CityServiceFactory);
 
         // $scope.input = {};
         // $scope.city = getCity();
@@ -1066,6 +1178,122 @@ angular.module('angucomplete', [] )
         //       default:
         //   }
         // };
+      }
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.result')
+        .factory('HealthInsuranceBenefitResourceFactory', HealthInsuranceBenefitResourceFactory);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    HealthInsuranceBenefitResourceFactory.$inject = [
+        // Angular
+        '$resource',
+        // Custom
+        'UriFactory'
+    ];
+
+    function HealthInsuranceBenefitResourceFactory(
+        // Angular
+        $resource,
+        // Custom
+        UriFactory
+    ) {
+        var url = UriFactory.getApi('/healthinsurancebenefit');
+
+        var paramDefaults = {
+            format : 'json'
+        };
+
+        var actions = {
+            'get': {
+                method: 'GET',
+                isArray: false
+            }
+        };
+
+        return $resource(url, actions, paramDefaults);
+    }
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.result')
+        .config(Routes);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    Routes.$inject = [
+        // Angular
+        '$stateProvider'
+    ];
+
+    function Routes(
+        // Angular
+        $stateProvider
+    ) {
+        $stateProvider
+            .state('result', {
+                controller: 'ResultCtrl as vm',
+                templateUrl: 'templates/result/result.view.html',
+                url: '/result'
+            });
+    }
+
+})();
+
+;(function () {
+    'use strict';
+
+    angular.module('app.result')
+        .controller('ResultCtrl', ResultCtrl);
+
+    // Inject dependencies into constructor (needed when JS minification is applied).
+    ResultCtrl.$inject = [
+        // Angular
+        '$log',
+        '$state',
+        '$scope',
+        // Custom
+        'HealthInsuranceResourceFactory',
+        'HealthInsuranceContributionResourceFactory',
+        'BenefitServiceFactory',
+        'HealthInsuranceBenefitResourceFactory'
+    ];
+
+    function ResultCtrl(
+        // Angular
+        $log,
+        $state,
+        $scope,
+        // Custom
+        HealthInsuranceResourceFactory,
+        HealthInsuranceContributionResourceFactory,
+        BenefitServiceFactory,
+        HealthInsuranceBenefitResourceFactory
+    ) {
+        // ViewModel
+        // =========
+        var vm = this;
+
+        vm.title = "Voorstel op uw maat";
+        vm.healthinsurancecontributions = getHealthInsuranceContributions();
+        vm.healthinsurancebenefits = getHealthInsuranceBenefits();
+        vm.categories = BenefitServiceFactory;
+        $log.info('Gekozen voordelen:', vm.categories);
+
+        // Functions
+        // ----------
+        function getHealthInsuranceBenefits() {
+          return HealthInsuranceBenefitResourceFactory.query();
+        }
+
+        function getHealthInsuranceContributions() {
+          return HealthInsuranceContributionResourceFactory.query();
+        }
+
       }
 })();
 

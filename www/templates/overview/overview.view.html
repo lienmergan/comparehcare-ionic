@@ -1,12 +1,23 @@
 <ion-view title="{{ vm.title }}">
   <ion-content class="profile-background">
+    <div class="tabs tabs-icon-only tabs-top">
+      <a class="tab-item" href="#/">
+        <i class="icon ion-home"></i>
+      </a>
+      <a class="tab-item" href="#/profile">
+        <i class="icon ion-person"></i>
+      </a>
+    </div>
     <div class="menu-container">
       <div class="title-margin">
         <h1 class="title">{{ vm.title }}</h1>
+        <div class="buttons">
+          <button class="button button-icon ion-funnel" ng-click="popover.show($event)"></button>
+        </div>
       </div>
     </div>
     <div class="card-container">
-      <div class="row" ng-repeat="healthinsurancecontribution in vm.healthinsurancecontributions">
+      <div class="row" ng-repeat="healthinsurancecontribution in vm.healthinsurancecontributions | orderBy:'-contribution':true">
             <div class="card">
               <div class="item item-text-wrap">
                 <h2>{{ healthinsurancecontribution.health_insurance.name }}</h2>
@@ -15,10 +26,6 @@
               </div>
             </div>
         </div>
-      <!--<div class="col">-->
-        <!---->
-      <!--</div>-->
     </div>
   </ion-content>
 </ion-view>
-

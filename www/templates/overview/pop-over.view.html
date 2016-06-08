@@ -1,0 +1,13 @@
+<ion-popover-view>
+    <ion-header-bar>
+      <h1 class="title">{{ vm.titlePopOver }}</h1>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+        <ion-checkbox ng-repeat="category in vm.categories | orderBy:'-name':true" ng-model="categories.checked" ng-checked="BenefitServiceFactory.indexOf(category.name) > -1" ng-click="toggleSelection(category.name)">
+          {{ category.name }}
+        </ion-checkbox>
+      </div>
+      <a href="#/result"><button class="button button-outline button-positive" ng-click="hidePopover()">Bevestig</button></a>
+    </ion-content>
+</ion-popover-view>
